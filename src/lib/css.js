@@ -1,0 +1,8 @@
+import 'bootstrap/dist/css/bootstrap.min.css'
+import 'admin-lte/dist/css/AdminLTE.min.css'
+import 'admin-lte/dist/css/skins/_all-skins.min.css'
+import 'font-awesome/css/font-awesome.min.css'
+import 'vue2-animate/dist/vue2-animate.min.css'
+import 'vue-form-wizard/dist/vue-form-wizard.min.css'
+import 'ti-icons/css/themify-icons.css'
+import '../assets/main.css'
