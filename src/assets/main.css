@@ -566,11 +566,20 @@ button {
   top: 4px;
   right: 4px;
   z-index: 4;
+}
+
+.control.has-icon > .fa-check{
+  color: green;
+}
+.control.has-icon > .fa-times{
   color: #ff3860;
 }
 
 .input.is-danger, .textarea.is-danger {
   border-color: #ff3860;
+}
+.input.is-valid, .textarea.is-valid {
+  border-color: green;
 }
 .help.is-danger {
   color: #ff3860;

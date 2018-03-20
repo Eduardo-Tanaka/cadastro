@@ -41,3 +41,27 @@ export function vercpf (cpf) {
 
   return true
 }
+
+// verifica se o pis digitado é válido
+export function verpis (pis) {
+  let _pis = pis.replace(/[^0-9]/g, '')
+  const multiplicadorBase = '3298765432'
+  let total = 0
+  let multiplicando = 0
+  let multiplicador = 0
+  let resto = 0
+  let digito = 0
+  if (_pis.length !== 11 || _pis === '00000000000' || _pis === '11111111111' || _pis === '22222222222' || _pis === '33333333333' || _pis === '44444444444' ||
+    _pis === '55555555555' || _pis === '66666666666' || _pis === '77777777777' || _pis === '88888888888' || _pis === '99999999999') {
+    return false
+  }
+  for (let i = 0; i < 10; i++) {
+    multiplicando = parseInt(_pis.substring(i, i + 1))
+    multiplicador = parseInt(multiplicadorBase.substring(i, i + 1))
+    total += multiplicando * multiplicador
+  }
+  resto = 11 - total % 11
+  resto = resto === 10 || resto === 11 ? 0 : resto
+  digito = parseInt('' + _pis.charAt(10))
+  return resto === digito
+}

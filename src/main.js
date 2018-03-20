@@ -12,17 +12,22 @@ import axios from 'axios'
 const VueInputMask = require('vue-inputmask').default
 import VeeValidate, { Validator } from 'vee-validate'
 // importa validações customizadas
-import { validatorCpf } from './lib/customValidator'
+import { validatorCpf, validatorPis } from './lib/customValidator'
 // import messages from VeeValidate in portuguese
 import ptBR from 'vee-validate/dist/locale/pt_BR'
 import Toasted from 'vue-toasted'
 import Ripple from 'vue-ripple-directive'
 import VueFormWizard from 'vue-form-wizard'
+import vSelect from 'vue-select'
+
+// <v-select v-model="selected" :options="['foo','bar']"></v-select> https://github.com/sagalbot/vue-select
+Vue.component('v-select', vSelect)
 
 // Localize takes the locale object as the second argument (optional) and merges it.
 Validator.localize('pt_BR', ptBR)
 // adiciona as validações customizadas ao Validator
 Validator.extend('cpf', validatorCpf)
+Validator.extend('pis', validatorPis)
 
 // usage: v-ripple https://github.com/PygmySlowLoris/vue-ripple-directive
 Vue.directive('ripple', Ripple)

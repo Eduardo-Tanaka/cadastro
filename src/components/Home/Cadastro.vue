@@ -1,14 +1,15 @@
 <template>
   <div>  
     <form-wizard @on-complete="onComplete"
-       title="Cadastro SIHAB"
-       subtitle=""
-       shape="circle"
-       back-button-text="Voltar"
-       next-button-text="Próximo"
-       finish-button-text="Enviar"
-       color="#3498db">
-      <tab-content title="DADOS PESSOAIS" icon="ti-settings">
+      title="Cadastro SIHAB"
+      subtitle=""
+      shape="circle"
+      back-button-text="Voltar"
+      next-button-text="Próximo"
+      finish-button-text="Enviar"
+      color="#3498db"
+      ref="wizard">
+      <tab-content title="DADOS PESSOAIS" :before-change="beforeTabSwitch">
         <pessoa-fisica></pessoa-fisica>
       </tab-content>
       <tab-content title="DADOS PROFISSIONAIS">
@@ -27,15 +28,42 @@ export default {
   },
   data () {
     return {
-      nome: ''
+      nome: '',
+      cpf: '',
+      pis: '',
+      rg: '',
+      ctps: '',
+      nascimento: '',
+      nacionalidade: '',
+      stepValid: false
     }
   },
-  created () {
-    this.$bus.$on('teste', (value) => { this.nome = value })
+  mounted () {
+    // pega o resultado da validação do componente filho
+    this.$bus.$on('validate-result', (result) => {
+      this.stepValid = result
+    })
+    // pega o evento disparado do input do elemento filho e guarda no estado do component pai
+    this.$bus.$on('nome', (value) => { this.nome = value })
+    this.$bus.$on('cpf', (value) => { this.cpf = value })
+    this.$bus.$on('pis', (value) => { this.pis = value })
+    this.$bus.$on('rg', (value) => { this.rg = value })
+    this.$bus.$on('ctps', (value) => { this.ctps = value })
+    this.$bus.$on('nacionalidade', (value) => { this.nacionalidade = value })
   },
   methods: {
     onComplete: function () {
-      alert('Yay. Done!')
+    },
+    // roda antes de mudar de Tab
+    beforeTabSwitch: function () {
+      // emite o evento para o componente filho rodar a validação
+      this.$bus.$emit('validate')
+      // espera a resposta do evento validate-result para saber se há erros ou não
+      return new Promise((resolve, reject) => {
+        setTimeout(() => {
+          resolve(this.stepValid)
+        }, 100)
+      })
     }
   }
 }

@@ -2,22 +2,20 @@
 	<div>
 		<div class="row">
 			<div class="form-group col-sm-12">
-				<label for="nome-wizard">NOME</label>
-				<div class="input-group">
-					<span class="input-group-addon" id="basic-addon-nome-wizard"><i class="fa fa-user" aria-hidden="true"></i></span>
-					<div class="control has-icon has-icon-right">
-						<input name="nome" type="text" class="form-control" placeholder="Nome" aria-describedby="basic-addon-nome-wizard" id="nome-wizard"
-							:class="{'input': true, 'is-danger': errors.has('nome') }" v-validate="'required'" @input="onChange" v-model="nome">
-						<i v-show="errors.has('nome')" class="fa fa-times"></i>
-					</div>
-				</div>
-				<span v-show="errors.has('nome')" class="help is-danger">{{ errors.first('nome') }}</span>
+				<input-with-icon 
+					label="Nome" 
+					idspan="basic-addon-nome-wizard" 
+					icon="fa-user" 
+					name="nome" 
+					placeholder="Nome" 
+					idinput="nome-wizard" 
+					validate="required"></input-with-icon>
 			</div>
 		</div>
 
 		<div class="row">
 			<div class="form-group col-xs-6">
-				<input-cadastro-pessoa 
+				<input-with-icon
 					label="CPF" 
 					idspan="basic-addon-cpf-wizard" 
 					icon="fa-address-card-o" 
@@ -25,49 +23,54 @@
 					placeholder="CPF xxx.xxx.xxx-xx" 
 					idinput="cpf-wizard" 
 					validate="required|cpf"
-					mask="999.999.999-99"></input-cadastro-pessoa>
+					mask="999.999.999-99"></input-with-icon>
 			</div>
 			<div class="form-group col-xs-6">
-				<label for="pis-wizard">PIS</label>
-				<div class="input-group">
-					<span class="input-group-addon" id="basic-addon-pis-wizard"><i class="fa fa-address-card-o" aria-hidden="true"></i></span>
-					<input name="pis" type="text" class="form-control" placeholder="PIS" aria-describedby="basic-addon-pis-wizard" id="pis-wizard" data-value="data_pis"
-						data-validation="required"	
-						data-validation-error-msg="O PIS digitado é inválido">
-				</div>
-			</div>
-		</div>
-
-		<div class="row">
-			<div class="form-group col-xs-6">
-				<label for="rg-wizard">RG</label>
-				<div class="input-group">
-					<span class="input-group-addon" id="basic-addon-rg-wizard"><i class="fa fa-id-card" aria-hidden="true"></i></span>
-					<input maxlength="20" name="rg" type="text" class="form-control" placeholder="RG" aria-describedby="basic-addon-rg-wizard" id="rg-wizard"
-						data-validation="required length"
-						data-validation-length="max20">
-				</div>
-			</div>
-			<div class="form-group col-xs-6">
-				<label for="ctps-wizard">CTPS</label>
-				<div class="input-group">
-					<span class="input-group-addon" id="basic-addon-ctps-wizard"><i class="fa fa-id-card" aria-hidden="true"></i></span>
-					<input maxlength="20" name="ctps" type="text" class="form-control" placeholder="CTPS (número e série)" aria-describedby="basic-addon-ctps-wizard" id="ctps-wizard"
-						data-validation="required length"
-						data-validation-length="max20">
-				</div>
+				<input-with-icon 
+					label="PIS" 
+					idspan="basic-addon-pis-wizard" 
+					icon="fa-address-card-o" 
+					name="pis" 
+					placeholder="PIS" 
+					idinput="pis-wizard" 
+					validate="required|pis"
+					mask="999.9999.999-9"></input-with-icon>
 			</div>
 		</div>
 
 		<div class="row">
 			<div class="form-group col-xs-6">
-				<label for="nacionalidade-wizard">NACIONALIDADE</label>
-				<div class="input-group">
-					<span class="input-group-addon" id="basic-addon-nacionalidade-wizard"><i class="fa fa-home" aria-hidden="true"></i></span>
-					<select name="nacionalidade" class="form-control" aria-describedby="basic-addon-nacionalidade-wizard" id="nacionalidade-wizard" data-value="data-nacionalidade" data-validation="required">
-						<option value="">Selecione</option>
-					</select>
-				</div>
+				<input-with-icon 
+					label="RG" 
+					idspan="basic-addon-rg-wizard" 
+					icon="fa-id-card" 
+					name="rg" 
+					placeholder="RG" 
+					idinput="rg-wizard" 
+					validate="required|max:20"></input-with-icon>
+			</div>
+			<div class="form-group col-xs-6">
+				<input-with-icon
+					label="CTPS" 
+					idspan="basic-addon-ctps-wizard" 
+					icon="fa-id-card" 
+					name="ctps"
+					placeholder="CTPS (número e série)" 
+					idinput="ctps-wizard" 
+					validate="required|max:20"></input-with-icon>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="form-group col-xs-6">
+				<select-with-icon
+					label="NACIONALIDADE" 
+					idspan="basic-addon-nacionalidade-wizard" 
+					icon="fa-home" 
+					name="nacionalidade"
+					idinput="nacionalidade-wizard" 
+					validate="required"
+					:options="optionsNacionalidade"></select-with-icon>
 			</div>
 			<div class="form-group col-xs-6">
 				<label for="data-nascimento-wizard">DATA DE NASCIMENTO</label>
@@ -83,14 +86,15 @@
 
 		<div class="row">
 			<div class="form-group col-xs-6">
-				<label for="estado-civil-wizard">ESTADO CIVIL</label>
-				<div class="input-group">
-					<span class="input-group-addon" id="basic-addon-estado-civil-wizard"><i class="fa fa-bell-o" aria-hidden="true"></i></span>
-					<select name="est_civil" class="form-control" aria-describedby="basic-addon-estado-civil-wizard" id="estado-civil-wizard"
-						data-validation="required">
-						<option value="">Selecione</option>
-					</select>
-				</div>
+				<select-with-icon
+					label="ESTADO CIVIL" 
+					idspan="basic-addon-estado-civil-wizard" 
+					icon="fa-bell-o" 
+					name="est_civil"
+					alias="estado civil"
+					idinput="estado-civil-wizard" 
+					validate="required"
+					:options="optionsEstadoCivil"></select-with-icon>
 			</div>
 			<div class="form-group col-xs-6 hide" id="div-reg-casamento">
 				<label for="reg-casamento-wizard">REGIME DE CASAMENTO</label>
@@ -109,20 +113,34 @@
 </template>
 
 <script>
-import CadastroInput from './CadastroInput'
+import InputWithIcon from '../Inputs/InputWithIcon'
+import SelectWithIcon from '../Inputs/SelectWithIcon'
 export default {
   name: 'PessoaFisica',
   components: {
-    'input-cadastro-pessoa': CadastroInput
+    'input-with-icon': InputWithIcon,
+    'select-with-icon': SelectWithIcon
   },
   data () {
     return {
-      nome: ''
+      nome: '',
+      optionsNacionalidade: ['teste', 'teste1', 'teste2'],
+      optionsEstadoCivil: ['s', 'a']
     }
+  },
+  mounted () {
+    // pega o evento lançado pelo componente pai
+    this.$bus.$on('validate', () => {
+      // valida todos os dados
+      this.$validator.validateAll().then((result) => {
+        // envia o resultado da validação para o componente pai
+        this.$bus.$emit('validate-result', result)
+      })
+    })
   },
   methods: {
     onChange: function () {
-      this.$bus.$emit('teste', this.nome)
+      // this.$bus.$emit('teste', this.nome)
     }
   }
 }
