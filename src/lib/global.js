@@ -65,3 +65,14 @@ export function verpis (pis) {
   digito = parseInt('' + _pis.charAt(10))
   return resto === digito
 }
+
+// verifica se a matricula digitada é válida
+export function verMatricula (matr) {
+  const digito = parseInt(matr.split('-')[1])
+  let soma = 0
+  for (let i = 0; i < 6; i++) {
+    soma += matr.charAt(i) * (i + 2)
+  }
+  const resultado = soma % 11 === 10 ? 0 : soma % 11
+  return resultado === digito
+}

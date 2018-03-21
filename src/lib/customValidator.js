@@ -1,4 +1,4 @@
-import { vercpf, verpis } from './global.js'
+import { vercpf, verpis, verMatricula } from './global.js'
 
 export const validatorCpf = {
   getMessage (field, args) {
@@ -17,5 +17,15 @@ export const validatorPis = {
   validate (value, args) {
     // Returns a Boolean or a Promise.
     return verpis(value)
+  }
+}
+
+export const validatorMatricula = {
+  getMessage (field, args) {
+    return 'A ' + field + ' é inválida.'
+  },
+  validate (value, args) {
+    // Returns a Boolean or a Promise.
+    return verMatricula(value)
   }
 }

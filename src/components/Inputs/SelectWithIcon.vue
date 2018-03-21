@@ -2,7 +2,9 @@
 	<div>
 		<label :for="idinput">{{label}}</label>
 		<div class="input-group">
-			<span class="input-group-addon" :id="idspan"><i class="fa" :class="icon" aria-hidden="true"></i></span>
+			<span class="input-group-addon" :id="idspan" :class="{'input': true, 'is-danger': errors.has(name), 'is-valid': fields[name] && fields[name].valid}">
+        <i class="fa" :class="icon" aria-hidden="true"></i>
+      </span>
 			<div class="control has-icon has-icon-right">
         <select :name="name" class="form-control" :aria-describedby="idspan" :id="idinput" v-validate="validate" :data-vv-name="name" :data-vv-as="alias"
           :class="{'input': true, 'is-danger': errors.has(name), 'is-valid': fields[name] && fields[name].valid}" @change="onChange" v-model="data">

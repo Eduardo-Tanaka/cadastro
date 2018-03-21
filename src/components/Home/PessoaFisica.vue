@@ -75,12 +75,17 @@
 			<div class="form-group col-xs-6">
 				<label for="data-nascimento-wizard">DATA DE NASCIMENTO</label>
 				<div class="input-group">
-					<span class="input-group-addon" id="basic-addon-data-nascimento-wizard"><i class="fa fa-birthday-cake" aria-hidden="true"></i></span>
-					<input name="nascimento" type="text" class="form-control" placeholder="dd/mm/aaaa" aria-describedby="basic-addon-data-nascimento-wizard" id="data-nascimento-wizard"
-						data-validation="required length date"	
-						data-validation-format="dd/mm/yyyy"
-						data-validation-length="10" >
+					<span class="input-group-addon" id="basic-addon-data-nascimento-wizard" :class="{'input': true, 'is-danger': errors.has('nascimento'), 'is-valid': fields['nascimento'] && fields['nascimento'].valid}">
+						<i class="fa fa-birthday-cake" aria-hidden="true"></i>
+					</span>
+					<div class="control has-icon has-icon-right">
+						<input name="nascimento" v-model="dataNascimento" class="form-control" @input="onChange2" @focus="onFocus" @blur="onBlur" type="text" v-mask="'99/99/9999'" v-validate="'required|max:10|date_format:DD/MM/YYYY'" :class="{'input': true, 'is-danger': errors.has('nascimento'), 'is-valid': fields['nascimento'] && fields['nascimento'].valid}" />			
+						<i v-show="errors.has('nascimento')" class="fa fa-times"></i>
+	        	<i v-show="fields['nascimento'] && fields['nascimento'].valid" class="fa fa-check"></i>
+	        </div>
 				</div>
+				<datepicker v-show="showDatePicker" :inline="true" v-model="date" @input="onChange" :input-class="{'form-control': true, 'input': true, 'is-danger': errors.has('nascimento'), 'is-valid': fields['nascimento'] && fields['nascimento'].valid}" placeholder="dd/mm/aaaa" id="data-nascimento-wizard" format="dd/MM/yyyy" v-validate="'required'" language="pt-br"></datepicker>
+				<span v-show="errors.has('nascimento')" class="help is-danger">{{ errors.first('nascimento') }}</span>
 			</div>
 		</div>
 
@@ -115,6 +120,8 @@
 <script>
 import InputWithIcon from '../Inputs/InputWithIcon'
 import SelectWithIcon from '../Inputs/SelectWithIcon'
+import moment from 'moment'
+moment.locale('pt-br')
 export default {
   name: 'PessoaFisica',
   components: {
@@ -123,7 +130,9 @@ export default {
   },
   data () {
     return {
-      nome: '',
+      dataNascimento: '',
+      date: '',
+      showDatePicker: false,
       optionsNacionalidade: ['teste', 'teste1', 'teste2'],
       optionsEstadoCivil: ['s', 'a']
     }
@@ -139,9 +148,26 @@ export default {
     })
   },
   methods: {
-    onChange: function () {
-      // this.$bus.$emit('teste', this.nome)
+    onChange: function (e) {
+      this.dataNascimento = moment(e).format('L')
+      this.$bus.$emit('nascimento', moment(e).format('DD/MM/YYYY'))
+      this.showDatePicker = false
+    },
+    onChange2: function (e) {
+      if (moment(e.target.value, 'DD/MM/YYYY').isValid()) {
+        this.date = moment(e.target.value, 'DD/MM/YYYY').toDate()
+        this.$bus.$emit('nascimento', e.target.value)
+      }
+    },
+    onFocus: function () {
+      this.showDatePicker = true
+    },
+    onBlur: function () {
+      setTimeout(() => { this.showDatePicker = false }, 200)
     }
+  },
+  beforeDestroy () {
+    this.$bus.$off()
   }
 }
 </script>

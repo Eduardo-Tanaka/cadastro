@@ -2,7 +2,9 @@
 	<div>
 		<label :for="idinput">{{label}}</label>
 		<div class="input-group">
-			<span class="input-group-addon" :id="idspan"><i class="fa" :class="icon" aria-hidden="true"></i></span>
+			<span class="input-group-addon" :id="idspan" :class="{'input': true, 'is-danger': errors.has(name), 'is-valid': fields[name] && fields[name].valid}">
+        <i class="fa" :class="icon" aria-hidden="true"></i>
+      </span>
 			<div class="control has-icon has-icon-right">
 				<input :name="name" type="text" class="form-control" :placeholder="placeholder" :aria-describedby="idspan" :id="idinput"
 					:class="{'input': true, 'is-danger': errors.has(name), 'is-valid': fields[name] && fields[name].valid}" 
