@@ -582,6 +582,12 @@ button {
 .help.is-danger {
   color: #ff3860;
 }
+.error {
+	color: #ff3860;
+}
+.valid {
+	color: green;
+}
 .help {
   display: block;
   font-size: 12px;

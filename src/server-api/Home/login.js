@@ -1,7 +1,7 @@
 import { HTTP } from '../../main'
 
 export function fetchLogin () {
-  return HTTP.get('decks')
+  return HTTP.get('/decks')
   .then((response) => {
     console.log(response)
     if (response.statusText !== 'OK') {

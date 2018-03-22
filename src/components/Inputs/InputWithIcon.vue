@@ -1,12 +1,12 @@
 <template>
 	<div>
-		<label :for="idinput">{{label}}</label>
+		<label :for="idinput" :class="{'error': errors.has(name), 'valid': fields[name] && fields[name].valid}">{{label}}</label>
 		<div class="input-group">
-			<span class="input-group-addon" :id="idspan" :class="{'input': true, 'is-danger': errors.has(name), 'is-valid': fields[name] && fields[name].valid}">
+			<span class="input-group-addon" :id="idspan" :class="{'input': true, 'is-danger error': errors.has(name), 'is-valid valid': fields[name] && fields[name].valid}">
         <i class="fa" :class="icon" aria-hidden="true"></i>
       </span>
 			<div class="control has-icon has-icon-right">
-				<input :name="name" type="text" class="form-control" :placeholder="placeholder" :aria-describedby="idspan" :id="idinput"
+				<input :name="name" type="text" class="form-control" :placeholder="placeholder" :aria-describedby="idspan" :id="idinput" :type="type"
 					:class="{'input': true, 'is-danger': errors.has(name), 'is-valid': fields[name] && fields[name].valid}" 
           v-validate="validate" v-mask="mask" @input="onChange" v-model="data" :data-vv-name="name" :data-vv-as="alias">
 				<i v-show="errors.has(name)" class="fa fa-times"></i>
@@ -62,6 +62,10 @@
       alias: {
         type: String,
         default: ''
+      },
+      type: {
+        type: String,
+        default: 'text'
       }
     },
     methods: {

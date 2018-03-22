@@ -72,6 +72,11 @@ export default {
       this.$bus.$on(item, (value) => { this.$data[item] = value })
     }
   },
+  watch: {
+    est_civil () {
+      this.$bus.$emit('showRegimeCasamento', this.est_civil)
+    }
+  },
   methods: {
     onComplete: function () {
       // emite o evento para o componente filho rodar a validação

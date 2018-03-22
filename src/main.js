@@ -58,7 +58,7 @@ eventBus.install = (Vue) => {
 Vue.use(eventBus)
 // axios config
 export const HTTP = axios.create({
-  baseURL: `https://mobile-flashcards-udacity-api.herokuapp.com/`,
+  baseURL: 'https://testetesteapi.herokuapp.com',
   headers: {
     'X-Token-Authorization': 'Bearer ' + localStorage.getItem('jwt')
   }

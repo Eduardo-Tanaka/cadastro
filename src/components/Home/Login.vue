@@ -18,46 +18,40 @@
   	  			<div class='login-form'>
   	  				<form id='form-login' action='../../api/public/Login' method='post' @submit.prevent="login">
   	  					<div class='form-group'>
-  		  					<label for='login-usuario'>USUÁRIO</label>
-  							<div class='input-group'>
-  								<span class='input-group-addon' id='basic-addon-login-usuario' :class="{'input': true, 'is-danger': errors.has('usuario') }">
-                    <i class='fa fa-user' aria-hidden='true'></i>
-                  </span>
-  								<div class="control has-icon has-icon-right">
-  									<input maxlength='6' name='usuario' type='text' class='form-control' placeholder='Matrícula (somente números)' aria-describedby='basic-addon-login-usuario' id='login-usuario' 
-                    v-mask="999999" v-model.number="user" v-validate="'required|numeric'" data-vv-validate-on="blur" :class="{'input': true, 'is-danger': errors.has('usuario') }">
-                    <i v-show="errors.has('usuario')" class="fa fa-times"></i>
-  								</div>
-  							</div>
-  							<span v-show="errors.has('usuario')" class="help is-danger">{{ errors.first('usuario') }}</span>
-  						</div>
-  						<div class='form-group'>
-  							<label for='login-senha'>SENHA</label>
-  					  		<div class='input-group'>
-  								<span class='input-group-addon' id='basic-addon-login-senha' :class="{'input': true, 'is-danger': errors.has('senha') }">
-                    <i class='fa fa-lock' aria-hidden='true'></i>
-                  </span>
-                  <div class="control has-icon has-icon-right">
-    								<input name='senha' type='password' class='form-control' placeholder='Digite sua senha' aria-describedby='basic-addon-login-senha' id='login-senha' 
-                    v-validate="'required'" v-model="password" :class="{'input': true, 'is-danger': errors.has('senha') }">
-                    <i v-show="errors.has('senha')" class="fa fa-times"></i>
-                  </div>
-  							</div>
-  							<span v-show="errors.has('senha')" class="help is-danger">{{ errors.first('senha') }}</span>
-  						</div>
-  						<div class='form-group pull-right'>
-  							<button v-ripple id='btn-submit' type='submit' class='btn btn-primary' style='width:100px' :disabled="isFetching">
-                  Enviar <i class="fa fa-spinner fa-spin fa-fw" v-if="isFetching"></i>
-                </button>
-  						</div>
-  						<div>
-  							<a style='cursor:pointer;'>Esqueci minha senha</a>
-  							<div style='margin-top:10px'>
-                  <router-link to='/home/cadastro'>
-  								  Cadastrar
-                  </router-link>
-  							</div>
-  						</div>
+                  <input-with-icon
+                    label="USUÁRIO" 
+                    idspan="basic-addon-login-usuario" 
+                    icon="fa-user" 
+                    name="usuario"
+                    placeholder="Matrícula (somente números)" 
+                    idinput="login-usuario" 
+                    validate="required|max:6"
+                    mask="999999"></input-with-icon>
+  						  </div>
+    						<div class='form-group'>
+                  <input-with-icon
+                    label="SENHA" 
+                    idspan="basic-addon-login-senha" 
+                    icon="fa-lock" 
+                    name="senha"
+                    placeholder="Digite sua senha" 
+                    idinput="senha-usuario" 
+                    validate="required|min:6|max:32"
+                    type="password"></input-with-icon>
+    						</div>
+    						<div class='form-group pull-right'>
+    							<button v-ripple id='btn-submit' type='submit' class='btn btn-primary' style='width:100px' :disabled="isFetching">
+                    Enviar <i class="fa fa-spinner fa-spin fa-fw" v-if="isFetching"></i>
+                  </button>
+    						</div>
+    						<div>
+    							<a style='cursor:pointer;'>Esqueci minha senha</a>
+    							<div style='margin-top:10px'>
+                    <router-link to='/home/cadastro'>
+    								  Cadastrar
+                    </router-link>
+    							</div>
+    						</div>
   			  		</form>
   	  			</div>
   		  	</div>
@@ -74,6 +68,7 @@
 </template>
 
 <script>
+import InputWithIcon from '../Inputs/InputWithIcon'
 // import { fetchLogin } from '../../server-api/home/login'
 function verificaNavegador () {
   var nav = navigator.userAgent.toLowerCase()
@@ -104,18 +99,22 @@ function verificaNavegador () {
 
 export default {
   name: 'Login',
+  components: {
+    'input-with-icon': InputWithIcon
+  },
   created () {
   },
   data () {
     return {
-      user: '',
-      password: '',
+      usuario: '',
+      senha: '',
       animate: false,
       opacity: 0,
       isFetching: false
     }
   },
   mounted () {
+    this.$bus.$on('usuario', (value) => { this.usuario = value })
     this.animate = true
     verificaNavegador()
   },
@@ -123,12 +122,12 @@ export default {
     login: function (event) {
       this.isFetching = true
       this.$validator.validateAll().then((result) => {
-        localStorage.setItem('isLogged', JSON.stringify(true))
-        if (this.$route.query.redirect) {
+        // localStorage.setItem('isLogged', JSON.stringify(true))
+        /* if (this.$route.query.redirect) {
           this.$router.replace(this.$route.query.redirect)
         } else {
           this.$router.replace('/adm')
-        }
+        } */
         /* if (result) {
           fetchLogin()
             .then((data) => {
@@ -155,6 +154,9 @@ export default {
     animationEnd: function () {
       this.opacity = 1
     }
+  },
+  beforeDestroy () {
+    this.$bus.$off()
   }
 }
 </script>
