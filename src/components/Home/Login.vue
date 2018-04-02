@@ -69,6 +69,7 @@
 
 <script>
 import InputWithIcon from '../Inputs/InputWithIcon'
+var qs = require('qs')
 // import { fetchLogin } from '../../server-api/home/login'
 function verificaNavegador () {
   var nav = navigator.userAgent.toLowerCase()
@@ -106,15 +107,18 @@ export default {
   },
   data () {
     return {
-      usuario: '',
-      senha: '',
+      form: {
+        usuario: '',
+        senha: ''
+      },
       animate: false,
       opacity: 0,
       isFetching: false
     }
   },
   mounted () {
-    this.$bus.$on('usuario', (value) => { this.usuario = value })
+    this.$bus.$on('usuario', (value) => { this.form.usuario = value })
+    this.$bus.$on('senha', (value) => { this.form.senha = value })
     this.animate = true
     verificaNavegador()
   },
@@ -122,8 +126,10 @@ export default {
     login: function (event) {
       this.isFetching = true
       this.$validator.validateAll().then((result) => {
-        // localStorage.setItem('isLogged', JSON.stringify(true))
-        /* if (this.$route.query.redirect) {
+        console.log(qs.stringify(this.form))
+        /* localStorage.setItem('isLogged', JSON.stringify(true))
+        this.$bus.$emit('login', JSON.parse(localStorage.getItem('isLogged')))
+        if (this.$route.query.redirect) {
           this.$router.replace(this.$route.query.redirect)
         } else {
           this.$router.replace('/adm')

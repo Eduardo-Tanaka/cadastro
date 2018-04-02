@@ -43,7 +43,7 @@ router.beforeEach((to, from, next) => {
       .catch(() => next({ path: '/', query: { redirect: to.fullPath } })) */
   // tentar acessar a página de login já logado, volta para a página de origem
   } else if (localStorage.getItem('isLogged') === 'true' && to.path === '/') {
-    router.go(-1)
+    next('/adm')
   } else {
     next() // make sure to always call next()!
   }

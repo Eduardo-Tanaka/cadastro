@@ -1,5 +1,6 @@
 <template>
-  <div>  
+  <div>
+
     <form-wizard @on-complete="onComplete"
       title="Cadastro SIHAB"
       subtitle=""

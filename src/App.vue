@@ -25,6 +25,12 @@ export default {
   },
   created () {
   },
+  mounted () {
+    this.$bus.$on('login', resp => {
+      console.log(resp)
+      this.isLogged = resp
+    })
+  },
   watch: {
     '$route' (to, from) {
       // react to route changes...

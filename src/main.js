@@ -20,6 +20,12 @@ import Ripple from 'vue-ripple-directive'
 import VueFormWizard from 'vue-form-wizard'
 import vSelect from 'vue-select'
 import Datepicker from 'vuejs-datepicker'
+import Vue2Filters from 'vue2-filters'
+import 'vue-loaders/dist/vue-loaders.css'
+import * as VueLoaders from 'vue-loaders'
+
+Vue.use(VueLoaders)
+Vue.use(Vue2Filters)
 
 // <v-select v-model="selected" :options="['foo','bar']"></v-select> https://github.com/sagalbot/vue-select
 Vue.component('v-select', vSelect)
@@ -49,13 +55,13 @@ Vue.use(VeeValidate)
 // usage: v-mask="99999" on input https://github.com/scleriot/vue-inputmask
 Vue.use(VueInputMask)
 
-const eventBus = {}
+//  const eventBus = {}
 
-eventBus.install = (Vue) => {
-  Vue.prototype.$bus = EventBus
-}
+// eventBus.install = (Vue) => {
+Vue.prototype.$bus = EventBus
+// }
 
-Vue.use(eventBus)
+// Vue.use(eventBus)
 // axios config
 export const HTTP = axios.create({
   baseURL: 'https://testetesteapi.herokuapp.com',

@@ -1,5 +1,6 @@
 <template>
 	<div>
+		<loading :show="show"></loading>
 		<div class="row">
 			<div class="form-group col-sm-12">
 				<input-with-icon
@@ -9,7 +10,8 @@
 					name="nome" 
 					placeholder="Nome" 
 					idinput="nome-wizard" 
-					validate="required"></input-with-icon>
+					validate="required"
+					styleInput="text-transform:capitalize"></input-with-icon>
 			</div>
 		</div>
 
@@ -117,16 +119,18 @@
 </template>
 
 <script>
-import { fetchPessoaFisica } from '../../server-api/home/selects'
+// import { fetchPessoaFisica } from '../../server-api/home/selects'
 import InputWithIcon from '../Inputs/InputWithIcon'
 import SelectWithIcon from '../Inputs/SelectWithIcon'
+import LoadingOverlay from '../../Templates/LoadingOverlay'
 import moment from 'moment'
 moment.locale('pt-br')
 export default {
   name: 'PessoaFisica',
   components: {
     'input-with-icon': InputWithIcon,
-    'select-with-icon': SelectWithIcon
+    'select-with-icon': SelectWithIcon,
+    'loading': LoadingOverlay
   },
   data () {
     return {
@@ -136,17 +140,19 @@ export default {
       showDatePicker: false,
       optionsNacionalidade: [],
       optionsEstadoCivil: [],
-      optionsRegimeCasamento: []
+      optionsRegimeCasamento: [],
+      show: false
     }
   },
   mounted () {
-    fetchPessoaFisica()
+    this.show = true
+    /* fetchPessoaFisica()
       .then(resp => {
         console.log(resp)
         this.optionsNacionalidade = resp.nacionalidade
         this.optionsEstadoCivil = resp.estado_civil
         this.optionsRegimeCasamento = resp.casamento
-      })
+      }) */
     // pega o evento lançado pelo componente pai
     this.$bus.$on('validate', () => {
       // valida todos os dados
@@ -182,9 +188,6 @@ export default {
     onBlur: function () {
       setTimeout(() => { this.showDatePicker = false }, 200)
     }
-  },
-  beforeDestroy () {
-    this.$bus.$off()
   }
 }
 </script>
