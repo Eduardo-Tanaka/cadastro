@@ -1,6 +1,7 @@
 <template>
 	<loading :show="show" overlay-class="loading-theme-dark" loader-class="loading-overlay-content" :style="style">
 		<div slot="loading-text">
+			<vue-particles color="#dedede" v-if="show2"></vue-particles>
       <div>Carregando...</div>
 		</div>
 		<div slot="loading-spinner" style="margin-top:20px">
@@ -47,7 +48,8 @@ export default {
   data () {
     return {
       style: '',
-      icon: 0
+      icon: 0,
+      show2: false
     }
   },
   props: {
@@ -60,6 +62,7 @@ export default {
     this.getStyle()
   },
   mounted () {
+    setTimeout(() => { this.show2 = true }, 100)
     window.addEventListener('resize', this.getStyle)
     this.icon = Math.floor(Math.random() * (27 + 1)) // número entre 0 e 27
   },
@@ -69,7 +72,12 @@ export default {
     }
   },
   beforeDestroy () {
+    // this.show2 = false
     window.removeEventListener('resize', this.getStyle)
   }
 }
 </script>
+
+<style>
+#particles-js { position: absolute; background-size: cover; top: 0; bottom: 0; left: 0; right: 0; overflow-y: hidden; z-index: 0; }
+</style>

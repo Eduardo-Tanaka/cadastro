@@ -68,7 +68,8 @@
 </template>
 
 <script>
-import InputWithIcon from '../Inputs/InputWithIcon'
+const InputWithIcon = () => import('../Inputs/InputWithIcon')
+// import InputWithIcon from '../Inputs/InputWithIcon'
 var qs = require('qs')
 // import { fetchLogin } from '../../server-api/home/login'
 function verificaNavegador () {

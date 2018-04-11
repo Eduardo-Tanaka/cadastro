@@ -9,9 +9,12 @@
 </template>
 
 <script>
-import VANaviBar from 'NaviBar.vue'
-import VASlider from 'Slider.vue'
-import VAContentWrap from 'ContentWrap.vue'
+const VANaviBar = () => import('NaviBar.vue')
+const VASlider = () => import('Slider.vue')
+const VAContentWrap = () => import('ContentWrap.vue')
+// import VANaviBar from 'NaviBar.vue'
+// import VASlider from 'Slider.vue'
+// import VAContentWrap from 'ContentWrap.vue'
 import slideMenuItems from './menus/slideMenuItems.js'
 // import slideMenuItems2 from './menus/slideMenuItems2.js'
 
@@ -49,5 +52,4 @@ export default {
 </script>
 
 <style>
-
 </style>

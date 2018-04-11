@@ -1,6 +1,6 @@
 <template>
   <div>
-    <pessoa-funcionario @inputToParent="handleInputValue"></pessoa-funcionario>
+    <pessoa-funcionario @inputToParent="handleInputValue" :form="form"></pessoa-funcionario>
     <button @click="salvar">salvar</button>
   </div>
 </template>
@@ -10,7 +10,7 @@ const PessoaFuncionario = () => import('./PessoaFuncionario')
 // import PessoaFisica from './PessoaFisica'
 // import PessoaFuncionario from './PessoaFuncionario'
 export default {
-  name: 'HomeCadastro',
+  name: 'HomeAtualizaCadastro',
   components: {
     'pessoa-funcionario': PessoaFuncionario
   },
@@ -31,6 +31,14 @@ export default {
         confsenha: ''
       }
     }
+  },
+  mounted () {
+    setTimeout(() => {
+      this.form.unidade = '7440'
+      this.form.matricula = '111761'
+      this.form.matriculaDV = '0'
+      this.form.jornada = '1'
+    }, 1000)
   },
   computed: {
     raw_matricula () {

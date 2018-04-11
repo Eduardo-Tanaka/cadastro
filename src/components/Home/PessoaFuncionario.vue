@@ -1,44 +1,14 @@
 <template>
 	<div>
 		<div class="row">
-			<div class="form-group col-sm-3 col-xs-6">
-				<label for="funcionario-wizard" :class="{'help is-danger': errors.has('funcionario')}">FUNCIONÁRIO CAIXA?</label>
-				<div class="funkyradio">
-					 <div class="funkyradio-primary col-xs-6">
-						<input type="radio" name="funcionario" value="1" id="funcionario-sim" 
-						  v-model.number="funcionario" v-validate="{ rules: 'required|in:0,1', arg: 'funcionario' }" @change="onChange">  
-						<label for="funcionario-sim" class="checkbox-inline">Sim</label>
-					</div>
-						<div class="funkyradio-primary col-xs-6">
-						<input type="radio" name="funcionario" value="0" id="funcionario-nao" v-model.number="funcionario" @change="onChange"> 
-						<label for="funcionario-nao" class="checkbox-inline">Não</label>
-					</div>
-				</div>
-				<span v-show="errors.has('funcionario')" class="help is-danger">{{ errors.first('funcionario') }}</span>
-			</div>
-
-			<div class="form-group col-sm-3 col-xs-6" id="div-eventualidade" v-if="showFuncionario">
-				<label for="eventualidade-wizard" :class="{'help is-danger': errors.has('eventual')}">EVENTUAL?</label>
-				<div class="funkyradio">
-					 <div class="funkyradio-success col-xs-6">								
-						<input type="radio" name="eventual" value="1" id="eventualidade-sim" 
-							v-model.number="eventual" v-validate="{ rules: 'required|in:0,1', arg: 'eventual' }" @change="onChange">
-						<label for="eventualidade-sim" class="checkbox-inline">Sim</label>
-					</div>
-						<div class="funkyradio-success col-xs-6">								
-						<input type="radio" name="eventual" value="0" id="eventualidade-nao" v-model.number="eventual" @change="onChange">
-						<label for="eventualidade-nao" class="checkbox-inline">Não</label>
-					</div>
-				</div>
-				<span v-show="errors.has('eventual')" class="help is-danger">{{ errors.first('eventual') }}</span>
-			</div>
-
-			<div class="form-group col-sm-6 col-xs-12" id="div-matricula" v-if="showFuncionario">
+			<div class="form-group col-sm-6 col-xs-12" id="div-matricula">
 				<input-with-icon
+				  :value="form.matricula + form.matriculaDV"
+				  @inputToParent="passToParent"
 					label="MATRÍCULA" 
 					idspan="basic-addon-matricula-wizard" 
 					icon="fa-id-badge" 
-					name="matricula"
+					name="raw_matricula"
 					placeholder="Matrícula (somente números e dígito verificador)" 
 					idinput="matricula-wizard" 
 					validate="required|max:8|matricula"
@@ -46,10 +16,12 @@
 			</div>
 		</div>
 
-		<div id="div-funcionario" v-if="showFuncionario">
+		<div id="div-funcionario">
 			<div class="row">
 				<div class="form-group col-xs-6">
 					<select-with-icon
+					  :value="form.jornada"
+					  @inputToParent="passToParent"
 						label="JORNADA" 
 						idspan="basic-addon-jornada-wizard" 
 						icon="fa-clock-o" 
@@ -60,6 +32,8 @@
 				</div>
 				<div class="form-group col-xs-6">
 					<input-with-icon
+					  :value="form.unidade"
+					  @inputToParent="passToParent"
 						label="CÓDIGO UNIDADE" 
 						idspan="basic-addon-unidade-wizard" 
 						icon="fa-building-o" 
@@ -74,6 +48,7 @@
 			<div class="row">
 				<div class="form-group col-xs-6">
 					<select-with-icon
+					  @inputToParent="passToParent"
 						label="CARGO" 
 						idspan="basic-addon-cargo-wizard" 
 						icon="fa-address-book-o" 
@@ -84,6 +59,7 @@
 				</div>
 				<div class="form-group col-xs-6">
 					<input-with-icon
+					  @inputToParent="passToParent"
 						label="DATA DE CONTRATAÇÃO" 
 						idspan="basic-addon-contratacao-wizard" 
 						icon="fa-building-o" 
@@ -140,6 +116,7 @@
 import InputWithIcon from '../Inputs/InputWithIcon'
 import SelectWithIcon from '../Inputs/SelectWithIcon'
 export default {
+  inject: ['$validator'],
   name: 'PessoaFuncionario',
   components: {
     'input-with-icon': InputWithIcon,
@@ -147,36 +124,25 @@ export default {
   },
   data () {
     return {
-      funcionario: -1,
       eventual: -1,
-      showFuncionario: false,
-      optionsJornada: ['teste', 'teste1', 'teste2'],
+      optionsJornada: [{codigo: 1, desc: 'teste'}],
       optionsCargo: ['s', 'a'],
       optionsSupervisor: ['sup1', 'sup23']
     }
   },
-  watch: {
-    funcionario () {
-      this.showFuncionario = this.funcionario === 1
+  props: {
+    form: {
+      type: Object,
+      default: {}
     }
-  },
-  mounted () {
-    // pega o evento lançado pelo componente pai
-    this.$bus.$on('validate2', () => {
-      // valida todos os dados
-      this.$validator.validateAll().then((result) => {
-        // envia o resultado da validação para o componente pai
-        this.$bus.$emit('validate-result2', result)
-      })
-    })
   },
   methods: {
+    passToParent (name, value) {
+      this.$emit('inputToParent', name, value)
+    },
     onChange: function (e) {
-      this.$bus.$emit(e.target.name, e.target.value)
+      this.$emit('inputToParent', e.target.name, e.target.value)
     }
-  },
-  beforeDestroy () {
-    this.$bus.$off()
   }
 }
 </script>

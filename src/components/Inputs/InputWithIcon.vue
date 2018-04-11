@@ -12,7 +12,7 @@
         <i class="fa" :class="icon" aria-hidden="true"></i>
       </span>
 			<div class="control has-icon has-icon-right">
-				<input 
+				<input
           :name="name" 
           type="text" 
           class="form-control"
@@ -25,7 +25,7 @@
           v-validate="validate" 
           v-mask="mask" 
           @input="onChange" 
-          v-model="data" 
+          :value="value" 
           :data-vv-name="name" 
           :data-vv-as="alias" />
 				<i v-show="errors.has(name)" class="fa fa-times"></i>
@@ -40,11 +40,6 @@
   export default {
     inject: ['$validator'],
     name: 'InputWithIcon',
-    data () {
-      return {
-        data: ''
-      }
-    },
     props: {
       label: {
         type: String,
@@ -89,12 +84,17 @@
       styleInput: {
         type: String,
         default: ''
+      },
+      value: {
+        type: String,
+        default: ''
       }
     },
     methods: {
       // emite o evento para ser pego no componente pai
       onChange: function (e) {
-        this.$bus.$emit(e.target.name, e.target.value)
+        // this.$bus.$emit(e.target.name, e.target.value)
+        this.$emit('inputToParent', e.target.name, e.target.value)
       }
     }
   }

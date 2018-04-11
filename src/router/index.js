@@ -1,8 +1,9 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Login from 'components/Home/Login.vue'
-import Home from 'components/Home/Home.vue'
-import HomeCadastro from 'components/Home/Cadastro.vue'
+const Login = () => import('components/Home/Login.vue')
+const Home = () => import('components/Home/Home.vue')
+const HomeCadastro = () => import('components/Home/Cadastro.vue')
+const HomeAtualizaCadastro = () => import('components/Home/AtualizaCadastro.vue')
 // import { validaRota } from '../server-api/home/autorizacao'
 
 Vue.use(Router)
@@ -25,6 +26,11 @@ const router = new Router({
       path: '/home/cadastro',
       name: 'HomeCadastro',
       component: HomeCadastro
+    },
+    {
+      path: '/home/atualiza',
+      name: 'HomeAtualizaCadastro',
+      component: HomeAtualizaCadastro
     }
   ],
   linkActiveClass: 'active'

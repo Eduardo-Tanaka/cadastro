@@ -22,7 +22,7 @@
           :data-vv-as="alias"
           :class="{'input': true, 'is-danger': errors.has(name), 'is-valid': fields[name] && fields[name].valid}" 
           @change="onChange" 
-          v-model="data">
+          :value="value">
           <option value="">Selecione</option>
           <option v-for="(item, index) in options" :key="item.codigo" :value="item.codigo">{{item.desc}}</option>
         </select>
@@ -36,11 +36,6 @@
   export default {
     inject: ['$validator'],
     name: 'SelectWithIcon',
-    data () {
-      return {
-        data: ''
-      }
-    },
     props: {
       label: {
         type: String,
@@ -73,12 +68,17 @@
       alias: {
         type: String,
         default: ''
+      },
+      value: {
+        type: String,
+        default: ''
       }
     },
     methods: {
       // emite o evento para ser pego no componente pai
       onChange: function (e) {
-        this.$bus.$emit(e.target.name, e.target.value)
+        // this.$bus.$emit(e.target.name, e.target.value)
+        this.$emit('inputToParent', e.target.name, e.target.value)
       }
     }
   }

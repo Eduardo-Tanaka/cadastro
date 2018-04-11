@@ -5,6 +5,8 @@ import './lib/script'
 import './lib/global'
 
 import Vue from 'vue'
+Vue.config.devtools = true
+Vue.config.performance = true
 import App from './App'
 import router from './router'
 import EventBus from './lib/eventBus.js'
@@ -23,6 +25,8 @@ import Datepicker from 'vuejs-datepicker'
 import Vue2Filters from 'vue2-filters'
 import 'vue-loaders/dist/vue-loaders.css'
 import * as VueLoaders from 'vue-loaders'
+import VueParticles from 'vue-particles'
+Vue.use(VueParticles)
 
 Vue.use(VueLoaders)
 Vue.use(Vue2Filters)

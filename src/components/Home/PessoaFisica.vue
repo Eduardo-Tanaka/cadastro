@@ -1,6 +1,7 @@
 <template>
 	<div>
-		<loading :show="show"></loading>
+				<loading :show="show"></loading>
+
 		<div class="row">
 			<div class="form-group col-sm-12">
 				<input-with-icon
@@ -81,7 +82,7 @@
 						<i class="fa fa-birthday-cake" aria-hidden="true"></i>
 					</span>
 					<div class="control has-icon has-icon-right">
-						<input name="nascimento" v-model="dataNascimento" class="form-control" @input="onChange2" @focus="onFocus" @blur="onBlur" type="text" v-mask="'99/99/9999'" v-validate="'required|max:10|date_format:DD/MM/YYYY'" :class="{'input': true, 'is-danger': errors.has('nascimento'), 'is-valid': fields['nascimento'] && fields['nascimento'].valid}"  placeholder="dd/mm/aaaa"/>			
+						<input name="nascimento" v-model="dataNascimento" class="form-control" @input="onChange2" @focus="onFocus" type="text" v-mask="'99/99/9999'" v-validate="'required|max:10|date_format:DD/MM/YYYY'" :class="{'input': true, 'is-danger': errors.has('nascimento'), 'is-valid': fields['nascimento'] && fields['nascimento'].valid}"  placeholder="dd/mm/aaaa" @keydown.tab="showDatePicker=false"/>			
 						<i v-show="errors.has('nascimento')" class="fa fa-times"></i>
 	        	<i v-show="fields['nascimento'] && fields['nascimento'].valid" class="fa fa-check"></i>
 	        </div>
@@ -120,9 +121,12 @@
 
 <script>
 // import { fetchPessoaFisica } from '../../server-api/home/selects'
-import InputWithIcon from '../Inputs/InputWithIcon'
-import SelectWithIcon from '../Inputs/SelectWithIcon'
-import LoadingOverlay from '../../Templates/LoadingOverlay'
+const InputWithIcon = () => import('../Inputs/InputWithIcon')
+// import InputWithIcon from '../Inputs/InputWithIcon'
+const SelectWithIcon = () => import('../Inputs/SelectWithIcon')
+// import SelectWithIcon from '../Inputs/SelectWithIcon'
+const LoadingOverlay = () => import('../../Templates/LoadingOverlay')
+// import LoadingOverlay from '../../Templates/LoadingOverlay'
 import moment from 'moment'
 moment.locale('pt-br')
 export default {
@@ -171,6 +175,9 @@ export default {
     })
   },
   methods: {
+    teste () {
+      alert('d')
+    },
     onChange: function (e) {
       this.dataNascimento = moment(e).format('L')
       this.$bus.$emit('nascimento', moment(e).format('DD/MM/YYYY'))
@@ -186,7 +193,9 @@ export default {
       this.showDatePicker = true
     },
     onBlur: function () {
-      setTimeout(() => { this.showDatePicker = false }, 200)
+      if (this.showDatePicker && this.close) {
+        setTimeout(() => { this.showDatePicker = false }, 200)
+      }
     }
   }
 }
